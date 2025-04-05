@@ -4,7 +4,7 @@ import Tube from './Tube';
 import { generatePuzzle, isSolved, canMove, getHint, saveGame, loadGame } from '../utils/gameUtils';
 
 // 遊戲版本
-const GAME_VERSION = 'v1.3.0';
+const GAME_VERSION = 'v1.4.0';
 
 // 遊戲難度級別配置 (重新調整空試管數量)
 const DIFFICULTY_LEVELS = {
@@ -145,11 +145,11 @@ const BallSortGame = () => {
           // 創建新的試管狀態
           const newTubes = JSON.parse(JSON.stringify(tubes)); // 深拷貝
           
-          // 從源試管頂部取出一個球（最後一個元素）
-          const ball = newTubes[sourceIndex].pop();
+          // 從源試管頂部取出一個球（第一個元素，對應視覺上最上面的球）
+          const ball = newTubes[sourceIndex].shift();
           
-          // 放入目標試管頂部（添加到數組末尾）
-          newTubes[targetIndex].push(ball);
+          // 放入目標試管頂部（添加到數組開頭）
+          newTubes[targetIndex].unshift(ball);
           
           // 保存移動歷史
           setMoves([...moves, { from: sourceIndex, to: targetIndex, ball }]);
@@ -174,11 +174,11 @@ const BallSortGame = () => {
       const lastMove = moves[moves.length - 1];
       const newTubes = JSON.parse(JSON.stringify(tubes)); // 深拷貝
       
-      // 從目標試管頂部取出球（最後一個元素）
-      const ball = newTubes[lastMove.to].pop();
+      // 從目標試管頂部取出球（現在是第一個元素）
+      const ball = newTubes[lastMove.to].shift();
       
-      // 放回源試管頂部（添加到數組末尾）
-      newTubes[lastMove.from].push(ball);
+      // 放回源試管頂部（添加到數組開頭）
+      newTubes[lastMove.from].unshift(ball);
       
       // 更新狀態
       setTubes(newTubes);
