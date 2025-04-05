@@ -25,7 +25,9 @@ const Tube = ({ balls, isSelected, isHinted, isSource, onClick }) => {
           <div key={`empty-${index}`} className="empty-space"></div>
         ))}
         
-        {/* 球的部分 - 放在下方 */}
+        {/* 球的部分 - 放在下方 
+            注意：現在遊戲邏輯中，數組第一個元素是頂部球（視覺上的最上方），
+            所以我們需要反向渲染來確保邏輯和視覺表現一致 */}
         {balls.map((color, index) => (
           <div 
             key={`ball-${index}`} 
