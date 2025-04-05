@@ -4,11 +4,21 @@
   height: 240px;
   margin: 10px;
   cursor: pointer;
-  transition: transform 0.2s;
+  transition: transform 0.2s, box-shadow 0.3s;
 }
 
 .tube.selected {
   transform: translateY(-10px);
+  box-shadow: 0 10px 15px rgba(0, 0, 0, 0.2);
+}
+
+.tube.hinted {
+  animation: pulse 1.5s infinite;
+}
+
+.tube.source {
+  border: 2px dashed transparent;
+  animation: borderPulse 1.5s infinite;
 }
 
 .tube-content {
@@ -50,6 +60,31 @@
 /* 球的顏色動畫效果 */
 .ball:hover {
   transform: scale(1.05);
+}
+
+/* 提示動畫 */
+@keyframes pulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(33, 150, 243, 0.6);
+  }
+  70% {
+    box-shadow: 0 0 0 15px rgba(33, 150, 243, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(33, 150, 243, 0);
+  }
+}
+
+@keyframes borderPulse {
+  0% {
+    border-color: rgba(76, 175, 80, 0.8);
+  }
+  50% {
+    border-color: rgba(76, 175, 80, 0.3);
+  }
+  100% {
+    border-color: rgba(76, 175, 80, 0.8);
+  }
 }
 
 @media (max-width: 768px) {
