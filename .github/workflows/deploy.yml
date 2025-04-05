@@ -22,15 +22,46 @@ jobs:
         with:
           node-version: 16
 
+      # 強制創建 node_modules 目錄
+      - name: Create node_modules directory
+        run: mkdir -p node_modules
+
+      # 安裝依賴
       - name: Install Dependencies 📦
         run: npm install
 
-      - name: Build 🏗️
-        run: npm run build
-        env:
-          CI: false
+      # 列出已安裝的依賴
+      - name: List dependencies
+        run: npm list --depth=0
 
+      # 构建
+      - name: Build 🏗️
+        run: CI=false npm run build
+      
+      # 列出构建目录
+      - name: List build directory
+        run: ls -la build
+
+      # 檢查關鍵文件是否存在
+      - name: Check key files
+        run: |
+          if [ ! -f build/index.html ]; then
+            echo "Error: build/index.html does not exist"
+            exit 1
+          fi
+          if [ ! -d build/static ]; then
+            echo "Error: build/static directory does not exist"
+            exit 1
+          fi
+      
+      # 創建 .nojekyll 文件
+      - name: Create .nojekyll file
+        run: touch build/.nojekyll
+
+      # 部署
       - name: Deploy 🚀
         uses: JamesIves/github-pages-deploy-action@v4
         with:
           folder: build
+          branch: gh-pages
+          clean: true
