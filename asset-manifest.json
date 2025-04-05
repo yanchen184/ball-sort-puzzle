@@ -1,0 +1,15 @@
+{
+  "files": {
+    "main.css": "/ball-sort-puzzle/static/css/main.92b672f1.css",
+    "main.js": "/ball-sort-puzzle/static/js/main.f73682b4.js",
+    "static/js/453.1a526e73.chunk.js": "/ball-sort-puzzle/static/js/453.1a526e73.chunk.js",
+    "index.html": "/ball-sort-puzzle/index.html",
+    "main.92b672f1.css.map": "/ball-sort-puzzle/static/css/main.92b672f1.css.map",
+    "main.f73682b4.js.map": "/ball-sort-puzzle/static/js/main.f73682b4.js.map",
+    "453.1a526e73.chunk.js.map": "/ball-sort-puzzle/static/js/453.1a526e73.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.92b672f1.css",
+    "static/js/main.f73682b4.js"
+  ]
+}
