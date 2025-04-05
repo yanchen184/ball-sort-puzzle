@@ -4,14 +4,14 @@ import Tube from './Tube';
 import { generatePuzzle, isSolved, canMove, getHint, saveGame, loadGame } from '../utils/gameUtils';
 
 // 遊戲版本
-const GAME_VERSION = 'v1.2.0';
+const GAME_VERSION = 'v1.3.0';
 
-// 遊戲難度級別配置 (增加了空試管數量)
+// 遊戲難度級別配置 (重新調整空試管數量)
 const DIFFICULTY_LEVELS = {
-  EASY: { tubes: 6, colors: 4, emptyTubes: 2 },     // 4+2 試管
-  MEDIUM: { tubes: 9, colors: 5, emptyTubes: 4 },   // 5+4 試管
-  HARD: { tubes: 12, colors: 7, emptyTubes: 5 },    // 7+5 試管
-  EXPERT: { tubes: 16, colors: 9, emptyTubes: 7 }   // 9+7 試管
+  EASY: { tubes: 9, colors: 4, emptyTubes: 5 },     // 4+5 試管（更多空試管讓遊戲更簡單）
+  MEDIUM: { tubes: 8, colors: 5, emptyTubes: 3 },   // 5+3 試管
+  HARD: { tubes: 10, colors: 7, emptyTubes: 3 },    // 7+3 試管
+  EXPERT: { tubes: 13, colors: 10, emptyTubes: 3 }  // 10+3 試管（較少空試管讓遊戲更難）
 };
 
 // 默認遊戲配置
