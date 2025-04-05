@@ -20,12 +20,12 @@ const Tube = ({ balls, isSelected, isHinted, isSource, onClick }) => {
       onClick={onClick}
     >
       <div className="tube-content">
-        {/* 空位部分 */}
+        {/* 空位部分 - 放在上方 */}
         {Array.from({ length: emptySpaces }).map((_, index) => (
           <div key={`empty-${index}`} className="empty-space"></div>
         ))}
         
-        {/* 球的部分 */}
+        {/* 球的部分 - 放在下方 */}
         {balls.map((color, index) => (
           <div 
             key={`ball-${index}`} 
