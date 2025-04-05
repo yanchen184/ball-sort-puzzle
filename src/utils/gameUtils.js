@@ -163,14 +163,14 @@ export const canMove = (tubes, fromIndex, toIndex) => {
   // 目標試管必須有空間
   if (targetTube.length >= 4) return false;
   
-  // 獲取源試管頂部的球 (修正：最後一個元素是頂部球)
-  const topBall = sourceTube[sourceTube.length - 1];
+  // 獲取源試管頂部的球 (現在是第一個元素，對應視覺上的最上面球)
+  const topBall = sourceTube[0];
   
   // 如果目標試管為空，可以移動
   if (targetTube.length === 0) return true;
   
-  // 目標試管頂部的球 (修正：最後一個元素是頂部球)
-  const targetTopBall = targetTube[targetTube.length - 1];
+  // 目標試管頂部的球 (也是第一個元素)
+  const targetTopBall = targetTube[0];
   
   // 顏色必須匹配
   return topBall === targetTopBall;
