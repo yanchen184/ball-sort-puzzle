@@ -3,12 +3,15 @@ import './BallSortGame.css';
 import Tube from './Tube';
 import { generatePuzzle, isSolved, canMove, getHint, saveGame, loadGame } from '../utils/gameUtils';
 
-// 遊戲難度級別配置
+// 遊戲版本
+const GAME_VERSION = 'v1.2.0';
+
+// 遊戲難度級別配置 (增加了空試管數量)
 const DIFFICULTY_LEVELS = {
-  EASY: { tubes: 5, colors: 4, emptyTubes: 1 },
-  MEDIUM: { tubes: 7, colors: 5, emptyTubes: 2 },
-  HARD: { tubes: 9, colors: 7, emptyTubes: 2 },
-  EXPERT: { tubes: 12, colors: 9, emptyTubes: 3 }
+  EASY: { tubes: 6, colors: 4, emptyTubes: 2 },     // 4+2 試管
+  MEDIUM: { tubes: 9, colors: 5, emptyTubes: 4 },   // 5+4 試管
+  HARD: { tubes: 12, colors: 7, emptyTubes: 5 },    // 7+5 試管
+  EXPERT: { tubes: 16, colors: 9, emptyTubes: 7 }   // 9+7 試管
 };
 
 // 默認遊戲配置
@@ -215,6 +218,11 @@ const BallSortGame = () => {
 
   return (
     <div className="ball-sort-game">
+      <div className="game-header">
+        <div className="game-title">試管倒球遊戲</div>
+        <div className="game-version">{GAME_VERSION}</div>
+      </div>
+      
       <div className="game-info">
         <div className="move-counter">移動次數: {moveCount}</div>
         
