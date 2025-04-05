@@ -27,27 +27,97 @@ const COLORS = [
  * @returns {Array} - 初始化的試管狀態
  */
 export const generatePuzzle = (tubeCount, colorCount, emptyTubes, ballsPerTube) => {
+  // 檢查參數有效性
+  if (colorCount > COLORS.length) {
+    console.warn(`顏色數量超過預設顏色數 (${COLORS.length})，已自動調整`);
+    colorCount = COLORS.length;
+  }
+  
   // 初始化試管數組
   const tubes = Array(tubeCount).fill().map(() => []);
   
   // 計算有球的試管數量
   const filledTubes = tubeCount - emptyTubes;
   
-  // 生成所有球的列表
-  const allBalls = [];
-  for (let color = 0; color < colorCount; color++) {
-    for (let i = 0; i < ballsPerTube; i++) {
-      allBalls.push(COLORS[color]);
-    }
+  // 確保填充的試管數量足夠放下所有不同顏色的球
+  if (filledTubes < colorCount) {
+    console.warn('填充的試管數量不足以放下所有不同顏色的球');
+    return generatePuzzle(colorCount + emptyTubes, colorCount, emptyTubes, ballsPerTube);
   }
   
-  // 隨機打亂球的順序
+  // 首先創建已排序的球 (每個試管都有相同顏色的球)
+  const sortedTubes = [];
+  for (let color = 0; color < colorCount; color++) {
+    const tube = [];
+    for (let i = 0; i < ballsPerTube; i++) {
+      tube.push(COLORS[color]);
+    }
+    sortedTubes.push(tube);
+  }
+  
+  // 添加任何額外的填充試管 (如果需要)
+  for (let i = colorCount; i < filledTubes; i++) {
+    sortedTubes.push([]);
+  }
+  
+  // 從排序的試管中隨機提取球並放入游戲試管
+  // 這裡我們實現一個更復雜的邏輯來確保遊戲有解
+  
+  // 1. 首先建立一個包含所有球的陣列
+  let allBalls = [];
+  sortedTubes.forEach(tube => {
+    allBalls = allBalls.concat(tube);
+  });
+  
+  // 2. 徹底洗牌
   shuffle(allBalls);
   
-  // 將球分配到試管中
+  // 3. 將球重新分配到試管中，但確保沒有試管包含同一顏色的所有球
+  const filledTubesIndices = Array.from({ length: filledTubes }, (_, i) => i);
+  
   for (let i = 0; i < allBalls.length; i++) {
-    const tubeIndex = i % filledTubes;
+    let tubeIndex;
+    
+    // 對於最後一個同色球，確保它不與其他同色球放在同一試管
+    const ballColor = allBalls[i];
+    const isLastOfColor = allBalls.filter(b => b === ballColor).length === 1;
+    
+    if (isLastOfColor) {
+      // 找一個不包含這種顏色的試管
+      const availableTubes = filledTubesIndices.filter(idx => 
+        !tubes[idx].includes(ballColor) && tubes[idx].length < ballsPerTube
+      );
+      
+      // 如果找不到合適的試管，就隨機選一個有空間的試管
+      if (availableTubes.length === 0) {
+        const tubesWithSpace = filledTubesIndices.filter(idx => tubes[idx].length < ballsPerTube);
+        tubeIndex = tubesWithSpace[Math.floor(Math.random() * tubesWithSpace.length)];
+      } else {
+        tubeIndex = availableTubes[Math.floor(Math.random() * availableTubes.length)];
+      }
+    } else {
+      // 對於其他球，隨機選擇一個有空間的試管
+      const tubesWithSpace = filledTubesIndices.filter(idx => tubes[idx].length < ballsPerTube);
+      tubeIndex = tubesWithSpace[Math.floor(Math.random() * tubesWithSpace.length)];
+    }
+    
     tubes[tubeIndex].push(allBalls[i]);
+  }
+  
+  // 確保遊戲開始時沒有試管是完美排序的
+  for (let i = 0; i < filledTubes; i++) {
+    if (tubes[i].length === ballsPerTube) {
+      const color = tubes[i][0];
+      const allSameColor = tubes[i].every(ball => ball === color);
+      
+      if (allSameColor) {
+        // 如果有完美排序的試管，就交換一些球打亂它
+        const otherTubeIdx = (i + 1) % filledTubes;
+        const temp = tubes[i][0];
+        tubes[i][0] = tubes[otherTubeIdx][0];
+        tubes[otherTubeIdx][0] = temp;
+      }
+    }
   }
   
   return tubes;
@@ -84,20 +154,26 @@ export const isSolved = (tubes) => {
  * @returns {boolean} - 是否可以移動
  */
 export const canMove = (tubes, fromIndex, toIndex) => {
-  const sourceTop = tubes[fromIndex].length - 1;
-  const targetTop = tubes[toIndex].length - 1;
+  const sourceTube = tubes[fromIndex];
+  const targetTube = tubes[toIndex];
   
   // 源試管必須有球
-  if (sourceTop < 0) return false;
+  if (sourceTube.length === 0) return false;
   
   // 目標試管必須有空間
-  if (tubes[toIndex].length >= 4) return false;
+  if (targetTube.length >= 4) return false;
+  
+  // 獲取源試管頂部的球
+  const topBall = sourceTube[sourceTube.length - 1];
   
   // 如果目標試管為空，可以移動
-  if (tubes[toIndex].length === 0) return true;
+  if (targetTube.length === 0) return true;
+  
+  // 目標試管頂部的球
+  const targetTopBall = targetTube[targetTube.length - 1];
   
   // 顏色必須匹配
-  return tubes[fromIndex][sourceTop] === tubes[toIndex][targetTop];
+  return topBall === targetTopBall;
 };
 
 /**
