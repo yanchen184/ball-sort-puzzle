@@ -1,16 +1,22 @@
 import React from 'react';
 import './Tube.css';
 
-const Tube = ({ balls, isSelected, onClick }) => {
+const Tube = ({ balls, isSelected, isHinted, isSource, onClick }) => {
   // 試管的容量，在這裡設置為固定值
   const capacity = 4;
   
   // 計算試管中的空位數量
   const emptySpaces = capacity - balls.length;
   
+  // 確定試管的CSS類
+  const tubeClass = `tube 
+    ${isSelected ? 'selected' : ''} 
+    ${isHinted ? 'hinted' : ''} 
+    ${isSource ? 'source' : ''}`;
+  
   return (
     <div 
-      className={`tube ${isSelected ? 'selected' : ''}`} 
+      className={tubeClass} 
       onClick={onClick}
     >
       <div className="tube-content">
