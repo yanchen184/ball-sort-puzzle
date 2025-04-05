@@ -144,9 +144,11 @@ const BallSortGame = () => {
         if (canMove(tubes, sourceIndex, targetIndex)) {
           // 創建新的試管狀態
           const newTubes = JSON.parse(JSON.stringify(tubes)); // 深拷貝
-          // 從源試管取出一個球
+          
+          // 從源試管頂部取出一個球（最後一個元素）
           const ball = newTubes[sourceIndex].pop();
-          // 放入目標試管
+          
+          // 放入目標試管頂部（添加到數組末尾）
           newTubes[targetIndex].push(ball);
           
           // 保存移動歷史
@@ -172,9 +174,10 @@ const BallSortGame = () => {
       const lastMove = moves[moves.length - 1];
       const newTubes = JSON.parse(JSON.stringify(tubes)); // 深拷貝
       
-      // 從目標試管取出球
+      // 從目標試管頂部取出球（最後一個元素）
       const ball = newTubes[lastMove.to].pop();
-      // 放回源試管
+      
+      // 放回源試管頂部（添加到數組末尾）
       newTubes[lastMove.from].push(ball);
       
       // 更新狀態
