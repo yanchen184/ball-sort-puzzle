@@ -2,14 +2,18 @@
   position: relative;
   width: 60px;
   height: 240px;
-  margin: 10px;
+  margin: 8px;
   cursor: pointer;
   transition: transform 0.2s, box-shadow 0.3s;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .tube.selected {
   transform: translateY(-10px);
   box-shadow: 0 10px 15px rgba(0, 0, 0, 0.2);
+  z-index: 10; /* 確保選中的管子在最上層 */
 }
 
 .tube.hinted {
@@ -25,14 +29,15 @@
   position: relative;
   width: 100%;
   height: 200px;
-  background-color: rgba(255, 255, 255, 0.5);
+  background-color: rgba(255, 255, 255, 0.7); /* 增加透明度以便更好地看到試管內部 */
   border: 2px solid #333;
   border-bottom: none;
   border-radius: 10px 10px 0 0;
   display: flex;
-  flex-direction: column;  /* 改為由上到下 */
-  justify-content: flex-end; /* 球會堆積在底部 */
+  flex-direction: column;
+  justify-content: flex-end;
   overflow: hidden;
+  box-shadow: inset 0 0 8px rgba(0, 0, 0, 0.1); /* 內部陰影效果 */
 }
 
 .tube-bottom {
@@ -40,6 +45,7 @@
   height: 20px;
   background-color: #333;
   border-radius: 0 0 30px 30px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.15); /* 為底部添加陰影 */
 }
 
 .ball {
@@ -88,11 +94,58 @@
   }
 }
 
+/* 響應式設計 - 大屏幕 */
+@media (min-width: 1200px) {
+  .tube {
+    width: 65px;
+    height: 260px;
+    margin: 10px 12px;
+  }
+  
+  .tube-content {
+    height: 220px;
+  }
+  
+  .tube-bottom {
+    width: 65px;
+    height: 22px;
+  }
+  
+  .ball, .empty-space {
+    width: 55px;
+    height: 55px;
+  }
+}
+
+/* 響應式設計 - 平板 */
+@media (max-width: 991px) {
+  .tube {
+    width: 55px;
+    height: 220px;
+    margin: 6px;
+  }
+  
+  .tube-content {
+    height: 190px;
+  }
+  
+  .tube-bottom {
+    width: 55px;
+    height: 18px;
+  }
+  
+  .ball, .empty-space {
+    width: 45px;
+    height: 45px;
+  }
+}
+
+/* 響應式設計 - 手機 */
 @media (max-width: 768px) {
   .tube {
     width: 50px;
     height: 200px;
-    margin: 5px;
+    margin: 4px;
   }
   
   .tube-content {
@@ -107,5 +160,28 @@
   .ball, .empty-space {
     width: 40px;
     height: 40px;
+  }
+}
+
+/* 超小屏幕設備 */
+@media (max-width: 480px) {
+  .tube {
+    width: 40px;
+    height: 180px;
+    margin: 3px;
+  }
+  
+  .tube-content {
+    height: 160px;
+  }
+  
+  .tube-bottom {
+    width: 40px;
+    height: 12px;
+  }
+  
+  .ball, .empty-space {
+    width: 35px;
+    height: 35px;
   }
 }
