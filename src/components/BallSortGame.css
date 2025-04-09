@@ -138,29 +138,32 @@
 
 .tubes-container {
   display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 8px;
+  flex-direction: column;
+  align-items: center;
+  gap: 15px;
   margin: 20px 0;
-  padding: 15px;
+  padding: 20px;
   background-color: #ffffff;
   border-radius: 10px;
   box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.05);
   min-height: 270px;
-  max-width: 100%;
-  overflow-x: auto;
-  
-  /* 重要: 使用flex-direction: row確保水平排列 */
-  flex-direction: row;
-  
-  /* 設置容器高度以確保最多兩行 */
-  max-height: calc(270px * 2 + 16px); /* 兩個試管高度加上間距 */
-  align-content: flex-start; /* 確保內容從頂部開始排列 */
+  width: 100%;
 }
 
 .dark .tubes-container {
   background-color: #1a1a1a;
   box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.3);
+}
+
+.tubes-row {
+  display: flex;
+  flex-wrap: nowrap; /* 確保一行內不會換行 */
+  justify-content: center;
+  align-items: flex-start;
+  gap: 8px;
+  width: 100%;
+  overflow-x: auto; /* 允許水平滾動 */
+  padding: 5px 0;
 }
 
 .game-controls {
@@ -362,17 +365,24 @@
 
 /* 大屏幕 - 優化兩行佈局 */
 @media (min-width: 1200px) {
-  .tubes-container {
+  .tubes-row {
     gap: 10px;
-    padding: 20px;
+  }
+  
+  .tubes-container {
+    padding: 25px;
   }
 }
 
 /* 中等屏幕 */
 @media (max-width: 991px) {
-  .tubes-container {
+  .tubes-row {
     gap: 8px;
+  }
+  
+  .tubes-container {
     padding: 15px;
+    gap: 12px;
   }
   
   .game-stats {
@@ -403,10 +413,13 @@
     justify-content: flex-end;
   }
   
-  .tubes-container {
+  .tubes-row {
     gap: 6px;
+  }
+  
+  .tubes-container {
     padding: 12px;
-    max-height: none; /* 在小屏幕上不限制高度 */
+    gap: 10px;
   }
   
   .game-title {
@@ -448,9 +461,14 @@
     padding: 15px 10px;
   }
   
-  .tubes-container {
+  .tubes-row {
     gap: 5px;
-    padding: 8px;
+    padding: 3px 0;
+  }
+  
+  .tubes-container {
+    gap: 8px;
+    padding: 10px;
   }
   
   .game-controls {
@@ -503,9 +521,13 @@
 
 /* 超小屏幕設備 */
 @media (max-width: 480px) {
-  .tubes-container {
+  .tubes-row {
     gap: 3px;
-    padding: 6px;
+  }
+  
+  .tubes-container {
+    gap: 6px;
+    padding: 8px;
   }
   
   .game-title {
