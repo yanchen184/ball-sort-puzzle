@@ -275,6 +275,55 @@
   text-shadow: 0 0 10px rgba(255, 112, 67, 0.5);
 }
 
+/* 獲勝訊息關閉按鈕 */
+.close-win-btn {
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  border-radius: 25px;
+  padding: 10px 20px;
+  margin-top: 20px;
+  font-size: 1.1rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  animation: pulse-btn 1.5s infinite;
+}
+
+.close-win-btn:hover {
+  background-color: #45a049;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+  transform: translateY(-3px);
+}
+
+.close-win-btn:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.dark .close-win-btn {
+  background-color: #3a8a3c;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
+}
+
+.dark .close-win-btn:hover {
+  background-color: #4caf50;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.6);
+}
+
+@keyframes pulse-btn {
+  0% {
+    box-shadow: 0 0 0 0 rgba(76, 175, 80, 0.7);
+  }
+  70% {
+    box-shadow: 0 0 0 10px rgba(76, 175, 80, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(76, 175, 80, 0);
+  }
+}
+
 /* 獲勝動畫 */
 @keyframes win-appear {
   0% {
@@ -383,6 +432,12 @@
   .new-record {
     font-size: 1.5rem;
   }
+  
+  .close-win-btn {
+    font-size: 1rem;
+    padding: 8px 16px;
+    margin-top: 15px;
+  }
 }
 
 /* 手機 */
@@ -436,6 +491,12 @@
   .new-record {
     font-size: 1.3rem;
     margin-top: 15px;
+  }
+  
+  .close-win-btn {
+    font-size: 0.9rem;
+    padding: 7px 14px;
+    margin-top: 12px;
   }
 }
 
