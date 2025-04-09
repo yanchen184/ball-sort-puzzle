@@ -90,14 +90,14 @@
   align-items: center;
 }
 
-.move-counter, .timer {
+.move-counter, .timer, .difficulty-display {
   font-size: 1rem;
   font-weight: 500;
   color: #333;
   white-space: nowrap;
 }
 
-.dark .move-counter, .dark .timer {
+.dark .move-counter, .dark .timer, .dark .difficulty-display {
   color: #d0d0d0;
 }
 
@@ -124,12 +124,13 @@
 .high-score {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 5px;
   font-size: 0.9rem;
   color: #444;
   background-color: rgba(76, 175, 80, 0.1);
   padding: 5px 10px;
   border-radius: 5px;
+  white-space: nowrap;
 }
 
 .dark .high-score {
@@ -295,7 +296,21 @@
     flex-wrap: wrap;
     gap: 10px;
     padding: 10px;
-    justify-content: center;
+  }
+  
+  .game-stats {
+    flex: 1 1 100%;
+    justify-content: space-between;
+    margin-bottom: 5px;
+  }
+  
+  .difficulty-selector {
+    flex: 1;
+  }
+  
+  .high-score {
+    flex: 1;
+    justify-content: flex-end;
   }
   
   .tubes-container {
@@ -315,17 +330,6 @@
   .game-controls button {
     padding: 8px 15px;
     font-size: 0.9rem;
-  }
-  
-  .game-stats {
-    flex-wrap: wrap;
-    justify-content: center;
-  }
-  
-  .high-score {
-    margin-top: 5px;
-    width: 100%;
-    justify-content: center;
   }
 }
 
@@ -347,19 +351,21 @@
   }
   
   .game-stats {
-    flex-direction: row;
-    width: 100%;
-    justify-content: space-between;
-    flex-wrap: nowrap;
-  }
-  
-  .move-counter, .timer {
     font-size: 0.9rem;
   }
   
-  .difficulty-selector {
-    width: 100%;
-    justify-content: center;
+  .move-counter, .timer, .difficulty-display {
+    font-size: 0.9rem;
+  }
+  
+  .difficulty-selector select {
+    font-size: 0.9rem;
+    padding: 3px 8px;
+  }
+  
+  .high-score {
+    font-size: 0.85rem;
+    padding: 4px 8px;
   }
 }
 
@@ -374,13 +380,17 @@
     font-size: 1.3rem;
   }
   
-  .move-counter, .timer {
+  .game-stats {
+    flex-wrap: nowrap;
+    gap: 8px;
+  }
+  
+  .move-counter, .timer, .difficulty-display {
     font-size: 0.85rem;
   }
   
   .high-score {
-    flex-wrap: wrap;
-    padding: 5px;
-    gap: 5px;
+    font-size: 0.8rem;
+    padding: 3px 6px;
   }
 }
