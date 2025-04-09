@@ -4,7 +4,7 @@ import Tube from './Tube';
 import { generatePuzzle, isSolved, canMove, getHint, saveGame, loadGame } from '../utils/gameUtils';
 
 // 遊戲版本
-const GAME_VERSION = 'v1.4.0';
+const GAME_VERSION = 'v1.5.0';
 
 // 遊戲難度級別配置 (重新調整空試管數量)
 const DIFFICULTY_LEVELS = {
