@@ -11,8 +11,9 @@
 }
 
 .ball-sort-game.dark {
-  background-color: #2d2d2d;
+  background-color: #111111;
   color: #e0e0e0;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
 }
 
 .game-header {
@@ -80,7 +81,7 @@
 }
 
 .dark .game-info {
-  background-color: #3a3a3a;
+  background-color: #222222;
   box-shadow: 0 2px 4px rgba(0,0,0,0.3);
 }
 
@@ -116,7 +117,7 @@
 }
 
 .dark .difficulty-selector select {
-  background-color: #444;
+  background-color: #333333;
   color: #fff;
   border-color: #555;
 }
@@ -140,11 +141,12 @@
 
 .tubes-container {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(70px, 1fr));
+  /* 限制最多兩排管子 */
+  grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
   justify-content: center;
   justify-items: center;
   align-items: start;
-  gap: 10px;
+  gap: 15px;
   margin: 20px 0;
   padding: 15px;
   max-width: 100%;
@@ -155,7 +157,7 @@
 }
 
 .dark .tubes-container {
-  background-color: #333;
+  background-color: #1a1a1a;
   box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.3);
 }
 
@@ -225,7 +227,7 @@
 }
 
 .dark .win-message {
-  background-color: #2e3e2f;
+  background-color: #1e2e1f;
   border-color: #4CAF50;
   color: #6fcf76;
   box-shadow: 0 5px 15px rgba(76, 175, 80, 0.3);
@@ -268,10 +270,10 @@
   }
 }
 
-/* 大屏幕 - 更多列 */
+/* 大屏幕 - 兩排 */
 @media (min-width: 1200px) {
   .tubes-container {
-    grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
     gap: 15px;
     padding: 20px;
   }
@@ -280,9 +282,9 @@
 /* 中等屏幕 */
 @media (max-width: 991px) {
   .tubes-container {
-    grid-template-columns: repeat(auto-fill, minmax(65px, 1fr));
-    gap: 8px;
-    padding: 10px;
+    grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+    gap: 10px;
+    padding: 15px;
   }
   
   .game-stats {
@@ -314,9 +316,9 @@
   }
   
   .tubes-container {
-    grid-template-columns: repeat(auto-fill, minmax(58px, 1fr));
-    gap: 5px;
-    padding: 8px;
+    grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+    gap: 8px;
+    padding: 12px;
   }
   
   .game-title {
@@ -340,9 +342,9 @@
   }
   
   .tubes-container {
-    grid-template-columns: repeat(auto-fill, minmax(45px, 1fr));
-    gap: 4px;
-    padding: 5px;
+    grid-template-columns: repeat(auto-fill, minmax(65px, 1fr));
+    gap: 6px;
+    padding: 8px;
   }
   
   .game-controls {
@@ -372,8 +374,9 @@
 /* 超小屏幕設備 */
 @media (max-width: 480px) {
   .tubes-container {
-    grid-template-columns: repeat(auto-fill, minmax(40px, 1fr));
-    gap: 3px;
+    grid-template-columns: repeat(auto-fill, minmax(55px, 1fr));
+    gap: 5px;
+    padding: 6px;
   }
   
   .game-title {
