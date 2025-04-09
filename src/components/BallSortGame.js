@@ -4,7 +4,7 @@ import Tube from './Tube';
 import { generatePuzzle, isSolved, canMove, getHint, saveGame, loadGame } from '../utils/gameUtils';
 
 // 遊戲版本
-const GAME_VERSION = 'v1.10.0';
+const GAME_VERSION = 'v1.11.0';
 
 // 遊戲難度級別配置 (修改空管數量，使高難度更具挑戰性)
 const DIFFICULTY_LEVELS = {
@@ -291,6 +291,52 @@ const BallSortGame = () => {
     startNewGame();
   };
 
+  // 將試管分成兩行
+  const renderTubes = () => {
+    if (tubes.length === 0) return null;
+    
+    // 計算每行的試管數量
+    const tubesPerRow = Math.ceil(tubes.length / 2);
+    
+    // 分割試管數組為兩行
+    const firstRow = tubes.slice(0, tubesPerRow);
+    const secondRow = tubes.slice(tubesPerRow);
+    
+    return (
+      <>
+        <div className="tubes-row">
+          {firstRow.map((tube, index) => (
+            <Tube
+              key={index}
+              balls={tube}
+              isSelected={index === selectedTubeIndex}
+              isHinted={showHint && hint && (index === hint.fromIndex || index === hint.toIndex)}
+              isSource={showHint && hint && index === hint.fromIndex}
+              onClick={() => handleTubeClick(index)}
+            />
+          ))}
+        </div>
+        {secondRow.length > 0 && (
+          <div className="tubes-row">
+            {secondRow.map((tube, index) => {
+              const actualIndex = index + tubesPerRow;
+              return (
+                <Tube
+                  key={actualIndex}
+                  balls={tube}
+                  isSelected={actualIndex === selectedTubeIndex}
+                  isHinted={showHint && hint && (actualIndex === hint.fromIndex || actualIndex === hint.toIndex)}
+                  isSource={showHint && hint && actualIndex === hint.fromIndex}
+                  onClick={() => handleTubeClick(actualIndex)}
+                />
+              );
+            })}
+          </div>
+        )}
+      </>
+    );
+  };
+
   return (
     <div className={`ball-sort-game ${theme}`}>
       <div className="game-header">
@@ -337,16 +383,7 @@ const BallSortGame = () => {
       </div>
       
       <div className="tubes-container">
-        {tubes.map((tube, index) => (
-          <Tube
-            key={index}
-            balls={tube}
-            isSelected={index === selectedTubeIndex}
-            isHinted={showHint && hint && (index === hint.fromIndex || index === hint.toIndex)}
-            isSource={showHint && hint && index === hint.fromIndex}
-            onClick={() => handleTubeClick(index)}
-          />
-        ))}
+        {renderTubes()}
       </div>
       
       <div className="game-controls">
