@@ -257,6 +257,21 @@ const BallSortGame = () => {
     return `${mins}:${secs < 10 ? '0' : ''}${secs}`;
   };
 
+  // 獲取難度中文名稱
+  const getDifficultyName = (diff) => {
+    const difficultyNames = {
+      'BEGINNER': '入門',
+      'EASY': '簡單',
+      'MEDIUM': '中等',
+      'HARD': '困難',
+      'EXPERT': '專家',
+      'MASTER': '大師',
+      'INSANE': '瘋狂',
+      'NIGHTMARE': '噩夢'
+    };
+    return difficultyNames[diff] || diff;
+  };
+
   // 取得當前難度的最佳成績
   const getCurrentHighScore = () => {
     if (highScores[difficulty]) {
@@ -286,15 +301,16 @@ const BallSortGame = () => {
       
       <div className="game-info">
         <div className="game-stats">
-          <div className="move-counter">移動次數: {moveCount}</div>
+          <div className="move-counter">步數: {moveCount}</div>
           <div className="timer">時間: {formatTime(gameTime)}</div>
+          <div className="difficulty-display">難度: {getDifficultyName(difficulty)}</div>
         </div>
         
         <div className="difficulty-selector">
-          <label>難度: </label>
           <select 
             value={difficulty} 
             onChange={(e) => changeDifficulty(e.target.value)}
+            aria-label="選擇難度"
           >
             <option value="BEGINNER">入門</option>
             <option value="EASY">簡單</option>
@@ -309,9 +325,7 @@ const BallSortGame = () => {
         
         {highScore && (
           <div className="high-score">
-            <div>最佳記錄:</div>
-            <div>步數: {highScore.moves}</div>
-            <div>時間: {highScore.time}</div>
+            <div>最佳: {highScore.moves}步 {highScore.time}</div>
           </div>
         )}
       </div>
@@ -342,19 +356,10 @@ const BallSortGame = () => {
       {gameWon && (
         <div className="win-message">
           🎉 恭喜！你完成了遊戲！
-          <div>難度: {
-            difficulty === 'BEGINNER' ? '入門' :
-            difficulty === 'EASY' ? '簡單' :
-            difficulty === 'MEDIUM' ? '中等' :
-            difficulty === 'HARD' ? '困難' :
-            difficulty === 'EXPERT' ? '專家' :
-            difficulty === 'MASTER' ? '大師' :
-            difficulty === 'INSANE' ? '瘋狂' :
-            '噩夢'
-          }</div>
+          <div>難度: {getDifficultyName(difficulty)}</div>
           <div>移動次數: {moveCount} 步</div>
           <div>用時: {formatTime(gameTime)}</div>
-          {highScore && moveCount <= highScore.moves && (
+          {highScore && moveCount <= highScore.moves && gameTime <= highScores[difficulty].time && (
             <div className="new-record">🏆 新記錄！</div>
           )}
         </div>
