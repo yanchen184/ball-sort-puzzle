@@ -6,16 +6,16 @@ import { generatePuzzle, isSolved, canMove, getHint, saveGame, loadGame } from '
 // 遊戲版本
 const GAME_VERSION = 'v1.6.0';
 
-// 遊戲難度級別配置 (擴展並重新調整難度)
+// 遊戲難度級別配置 (修改空管數量，使高難度更具挑戰性)
 const DIFFICULTY_LEVELS = {
-  BEGINNER: { tubes: 8, colors: 3, emptyTubes: 5 },    // 3+5 試管 (最簡單)
+  BEGINNER: { tubes: 7, colors: 3, emptyTubes: 4 },    // 3+4 試管 (最簡單)
   EASY: { tubes: 9, colors: 4, emptyTubes: 5 },        // 4+5 試管 (簡單)
-  MEDIUM: { tubes: 10, colors: 6, emptyTubes: 4 },     // 6+4 試管 (中等)
-  HARD: { tubes: 12, colors: 8, emptyTubes: 4 },       // 8+4 試管 (困難)
-  EXPERT: { tubes: 15, colors: 10, emptyTubes: 5 },    // 10+5 試管 (專家)
-  MASTER: { tubes: 18, colors: 12, emptyTubes: 6 },    // 12+6 試管 (大師)
-  INSANE: { tubes: 20, colors: 14, emptyTubes: 6 },    // 14+6 試管 (瘋狂)
-  NIGHTMARE: { tubes: 22, colors: 16, emptyTubes: 6 }  // 16+6 試管 (噩夢)
+  MEDIUM: { tubes: 9, colors: 6, emptyTubes: 3 },      // 6+3 試管 (中等)
+  HARD: { tubes: 11, colors: 8, emptyTubes: 3 },       // 8+3 試管 (困難)
+  EXPERT: { tubes: 13, colors: 10, emptyTubes: 3 },    // 10+3 試管 (專家)
+  MASTER: { tubes: 15, colors: 12, emptyTubes: 3 },    // 12+3 試管 (大師)
+  INSANE: { tubes: 16, colors: 14, emptyTubes: 2 },    // 14+2 試管 (瘋狂)
+  NIGHTMARE: { tubes: 17, colors: 16, emptyTubes: 1 }  // 16+1 試管 (噩夢)
 };
 
 // 默認遊戲配置
@@ -288,7 +288,7 @@ const BallSortGame = () => {
   return (
     <div className={`ball-sort-game ${theme}`}>
       <div className="game-header">
-        <div className="game-title">試管倒球遊戲</div>
+        <div className="game-title">Bob的試管倒球遊戲</div>
         <div className="game-version">{GAME_VERSION}</div>
         <button 
           className="theme-toggle" 
