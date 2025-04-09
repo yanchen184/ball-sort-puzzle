@@ -2,7 +2,7 @@
   position: relative;
   width: 60px;
   height: 240px;
-  margin: 8px;
+  margin: 6px; /* 從 8px 減小為 6px 以使管子排列更密集 */
   cursor: pointer;
   transition: transform 0.2s, box-shadow 0.3s;
   display: flex;
@@ -113,9 +113,9 @@
 /* 響應式設計 - 大屏幕 */
 @media (min-width: 1200px) {
   .tube {
-    width: 65px;
+    width: 62px; /* 比上一版本稍小 */
     height: 260px;
-    margin: 10px 12px;
+    margin: 8px 6px; /* 水平間距減小以增加密度 */
   }
   
   .tube-content {
@@ -123,22 +123,22 @@
   }
   
   .tube-bottom {
-    width: 65px;
+    width: 62px;
     height: 22px;
   }
   
   .ball, .empty-space {
-    width: 55px;
-    height: 55px;
+    width: 52px;
+    height: 52px;
   }
 }
 
 /* 響應式設計 - 平板 */
 @media (max-width: 991px) {
   .tube {
-    width: 55px;
+    width: 52px; /* 稍微減小 */
     height: 220px;
-    margin: 6px;
+    margin: 5px; /* 減小間距 */
   }
   
   .tube-content {
@@ -146,22 +146,22 @@
   }
   
   .tube-bottom {
-    width: 55px;
+    width: 52px;
     height: 18px;
   }
   
   .ball, .empty-space {
-    width: 45px;
-    height: 45px;
+    width: 42px;
+    height: 42px;
   }
 }
 
 /* 響應式設計 - 手機 */
 @media (max-width: 768px) {
   .tube {
-    width: 50px;
+    width: 46px; /* 更小以適應更小的屏幕 */
     height: 200px;
-    margin: 4px;
+    margin: 3px; /* 更小的間距 */
   }
   
   .tube-content {
@@ -169,22 +169,22 @@
   }
   
   .tube-bottom {
-    width: 50px;
+    width: 46px;
     height: 15px;
   }
   
   .ball, .empty-space {
-    width: 40px;
-    height: 40px;
+    width: 36px;
+    height: 36px;
   }
 }
 
 /* 超小屏幕設備 */
 @media (max-width: 480px) {
   .tube {
-    width: 40px;
+    width: 38px; /* 更小 */
     height: 180px;
-    margin: 3px;
+    margin: 2px; /* 非常小的間距 */
   }
   
   .tube-content {
@@ -192,22 +192,22 @@
   }
   
   .tube-bottom {
-    width: 40px;
+    width: 38px;
     height: 12px;
   }
   
   .ball, .empty-space {
-    width: 35px;
-    height: 35px;
+    width: 33px;
+    height: 33px;
   }
 }
 
 /* 極小屏幕設備 */
 @media (max-width: 350px) {
   .tube {
-    width: 35px;
+    width: 32px; /* 極小 */
     height: 170px;
-    margin: 2px;
+    margin: 1px; /* 最小間距 */
   }
   
   .tube-content {
@@ -216,13 +216,13 @@
   }
   
   .tube-bottom {
-    width: 35px;
+    width: 32px;
     height: 10px;
   }
   
   .ball, .empty-space {
-    width: 30px;
-    height: 30px;
+    width: 28px;
+    height: 28px;
   }
   
   .ball {
