@@ -4,7 +4,7 @@ import Tube from './Tube';
 import { generatePuzzle, isSolved, canMove, getHint, saveGame, loadGame } from '../utils/gameUtils';
 
 // 遊戲版本
-const GAME_VERSION = 'v1.7.0';
+const GAME_VERSION = 'v1.8.0';
 
 // 遊戲難度級別配置 (修改空管數量，使高難度更具挑戰性)
 const DIFFICULTY_LEVELS = {
@@ -285,6 +285,12 @@ const BallSortGame = () => {
 
   const highScore = getCurrentHighScore();
 
+  // 關閉獲勝訊息
+  const closeWinMessage = () => {
+    setGameWon(false);
+    startNewGame();
+  };
+
   return (
     <div className={`ball-sort-game ${theme}`}>
       <div className="game-header">
@@ -362,6 +368,7 @@ const BallSortGame = () => {
           {highScore && moveCount <= highScore.moves && gameTime <= highScores[difficulty].time && (
             <div className="new-record">🏆 新記錄！</div>
           )}
+          <button className="close-win-btn" onClick={closeWinMessage}>繼續遊戲</button>
         </div>
       )}
     </div>
