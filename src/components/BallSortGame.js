@@ -4,14 +4,18 @@ import Tube from './Tube';
 import { generatePuzzle, isSolved, canMove, getHint, saveGame, loadGame } from '../utils/gameUtils';
 
 // 遊戲版本
-const GAME_VERSION = 'v1.5.0';
+const GAME_VERSION = 'v1.6.0';
 
-// 遊戲難度級別配置 (重新調整空試管數量)
+// 遊戲難度級別配置 (擴展並重新調整難度)
 const DIFFICULTY_LEVELS = {
-  EASY: { tubes: 9, colors: 4, emptyTubes: 5 },     // 4+5 試管（更多空試管讓遊戲更簡單）
-  MEDIUM: { tubes: 8, colors: 5, emptyTubes: 3 },   // 5+3 試管
-  HARD: { tubes: 10, colors: 7, emptyTubes: 3 },    // 7+3 試管
-  EXPERT: { tubes: 13, colors: 10, emptyTubes: 3 }  // 10+3 試管（較少空試管讓遊戲更難）
+  BEGINNER: { tubes: 8, colors: 3, emptyTubes: 5 },    // 3+5 試管 (最簡單)
+  EASY: { tubes: 9, colors: 4, emptyTubes: 5 },        // 4+5 試管 (簡單)
+  MEDIUM: { tubes: 10, colors: 6, emptyTubes: 4 },     // 6+4 試管 (中等)
+  HARD: { tubes: 12, colors: 8, emptyTubes: 4 },       // 8+4 試管 (困難)
+  EXPERT: { tubes: 15, colors: 10, emptyTubes: 5 },    // 10+5 試管 (專家)
+  MASTER: { tubes: 18, colors: 12, emptyTubes: 6 },    // 12+6 試管 (大師)
+  INSANE: { tubes: 20, colors: 14, emptyTubes: 6 },    // 14+6 試管 (瘋狂)
+  NIGHTMARE: { tubes: 22, colors: 16, emptyTubes: 6 }  // 16+6 試管 (噩夢)
 };
 
 // 默認遊戲配置
@@ -30,11 +34,24 @@ const BallSortGame = () => {
   const [hint, setHint] = useState(null);
   const [gameTime, setGameTime] = useState(0);
   const [isGameActive, setIsGameActive] = useState(false);
+  const [theme, setTheme] = useState('light'); // 新增主題切換
+  const [highScores, setHighScores] = useState({}); // 儲存各難度的最佳成績
   
   // 初始化遊戲
   useEffect(() => {
     // 嘗試從本地存儲加載遊戲
     const savedGame = loadGame();
+    const savedScores = localStorage.getItem('ballSortHighScores');
+    
+    if (savedScores) {
+      setHighScores(JSON.parse(savedScores));
+    }
+    
+    // 載入之前保存的主題設置
+    const savedTheme = localStorage.getItem('ballSortTheme');
+    if (savedTheme) {
+      setTheme(savedTheme);
+    }
     
     if (savedGame) {
       // 如果有保存的遊戲，詢問用戶是否要繼續
@@ -52,6 +69,12 @@ const BallSortGame = () => {
     // 否則，開始新遊戲
     startNewGame();
   }, []);
+  
+  // 主題變更時應用到 body
+  useEffect(() => {
+    document.body.className = theme;
+    localStorage.setItem('ballSortTheme', theme);
+  }, [theme]);
   
   // 當難度變更時，開始新遊戲
   useEffect(() => {
@@ -115,6 +138,16 @@ const BallSortGame = () => {
     if (tubes.length > 0 && isSolved(tubes)) {
       setGameWon(true);
       setIsGameActive(false);
+      
+      // 儲存最佳成績
+      if (highScores[difficulty] === undefined || 
+          moveCount < highScores[difficulty].moves || 
+          (moveCount === highScores[difficulty].moves && gameTime < highScores[difficulty].time)) {
+        const newHighScores = {...highScores};
+        newHighScores[difficulty] = { moves: moveCount, time: gameTime };
+        setHighScores(newHighScores);
+        localStorage.setItem('ballSortHighScores', JSON.stringify(newHighScores));
+      }
     }
   }, [tubes]);
 
@@ -200,6 +233,11 @@ const BallSortGame = () => {
     setDifficulty(newDifficulty);
   };
   
+  // 切換主題
+  const toggleTheme = () => {
+    setTheme(prevTheme => prevTheme === 'light' ? 'dark' : 'light');
+  };
+  
   // 顯示提示
   const showGameHint = () => {
     const newHint = getHint(tubes);
@@ -219,17 +257,38 @@ const BallSortGame = () => {
     return `${mins}:${secs < 10 ? '0' : ''}${secs}`;
   };
 
+  // 取得當前難度的最佳成績
+  const getCurrentHighScore = () => {
+    if (highScores[difficulty]) {
+      return {
+        moves: highScores[difficulty].moves,
+        time: formatTime(highScores[difficulty].time)
+      };
+    }
+    return null;
+  };
+
+  const highScore = getCurrentHighScore();
+
   return (
-    <div className="ball-sort-game">
+    <div className={`ball-sort-game ${theme}`}>
       <div className="game-header">
         <div className="game-title">試管倒球遊戲</div>
         <div className="game-version">{GAME_VERSION}</div>
+        <button 
+          className="theme-toggle" 
+          onClick={toggleTheme}
+          aria-label={theme === 'light' ? '切換到深色模式' : '切換到淺色模式'}
+        >
+          {theme === 'light' ? '🌙' : '☀️'}
+        </button>
       </div>
       
       <div className="game-info">
-        <div className="move-counter">移動次數: {moveCount}</div>
-        
-        <div className="timer">時間: {formatTime(gameTime)}</div>
+        <div className="game-stats">
+          <div className="move-counter">移動次數: {moveCount}</div>
+          <div className="timer">時間: {formatTime(gameTime)}</div>
+        </div>
         
         <div className="difficulty-selector">
           <label>難度: </label>
@@ -237,12 +296,24 @@ const BallSortGame = () => {
             value={difficulty} 
             onChange={(e) => changeDifficulty(e.target.value)}
           >
+            <option value="BEGINNER">入門</option>
             <option value="EASY">簡單</option>
             <option value="MEDIUM">中等</option>
             <option value="HARD">困難</option>
             <option value="EXPERT">專家</option>
+            <option value="MASTER">大師</option>
+            <option value="INSANE">瘋狂</option>
+            <option value="NIGHTMARE">噩夢</option>
           </select>
         </div>
+        
+        {highScore && (
+          <div className="high-score">
+            <div>最佳記錄:</div>
+            <div>步數: {highScore.moves}</div>
+            <div>時間: {highScore.time}</div>
+          </div>
+        )}
       </div>
       
       <div className="tubes-container">
@@ -271,8 +342,21 @@ const BallSortGame = () => {
       {gameWon && (
         <div className="win-message">
           🎉 恭喜！你完成了遊戲！
+          <div>難度: {
+            difficulty === 'BEGINNER' ? '入門' :
+            difficulty === 'EASY' ? '簡單' :
+            difficulty === 'MEDIUM' ? '中等' :
+            difficulty === 'HARD' ? '困難' :
+            difficulty === 'EXPERT' ? '專家' :
+            difficulty === 'MASTER' ? '大師' :
+            difficulty === 'INSANE' ? '瘋狂' :
+            '噩夢'
+          }</div>
           <div>移動次數: {moveCount} 步</div>
           <div>用時: {formatTime(gameTime)}</div>
+          {highScore && moveCount <= highScore.moves && (
+            <div className="new-record">🏆 新記錄！</div>
+          )}
         </div>
       )}
     </div>
